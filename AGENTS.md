@@ -33,3 +33,5 @@ use the editor.
 - Keep imported feature screens under src/features and TanStack file routes under src/routes; this preserves the source app navigation and module boundaries.
 - Retain target-pinned TanStack versions and generated Cloud clients; source credentials and backend identifiers must never replace target bindings.
 - Farm records synchronize account-scoped IndexedDB queues with Cloud record_store; preserve server-enforced owner and team access when changing workflows.
+- Keep push delivery helpers server-only and use authenticated RPC for own-device sync alerts plus managed cron authentication for reminders; credentials and cross-account delivery must never be client-controlled.
+- Persist per-device event deduplication and leased delivery attempts in Cloud; stateless workers cannot safely deduplicate or coordinate retries in memory.
