@@ -22,7 +22,7 @@ export const createReminderPlan = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((input: unknown) => z.object({ task: z.string().trim().min(5).max(2000), startDate: z.string().max(20) }).parse(input))
   .handler(async ({ data }): Promise<{ plan?: ReminderPlan; error?: string }> => {
-    const key = process.env.LOVABLE_API_KEY;
+    const key = process.env['LOVABLE_API_KEY'];
     if (!key) return { error: 'The AI planner is not configured yet.' };
     const res = await fetch('https://ai.gateway.lovable.dev/v1/responses', {
       method: 'POST',
