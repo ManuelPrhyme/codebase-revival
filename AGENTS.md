@@ -28,3 +28,8 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+## Imported application architecture
+- Keep imported feature screens under src/features and TanStack file routes under src/routes; this preserves the source app navigation and module boundaries.
+- Retain target-pinned TanStack versions and generated Cloud clients; source credentials and backend identifiers must never replace target bindings.
+- Farm records synchronize account-scoped IndexedDB queues with Cloud record_store; preserve server-enforced owner and team access when changing workflows.

@@ -1,0 +1,10 @@
+import {Plus,Phone,ArrowRight} from "lucide-react";
+import {useAuth} from "../auth/AuthProvider";
+import {useData} from "@/lib/hooks";
+import {save,uid} from "@/lib/db";
+import {syncNow} from "@/lib/sync";
+import {customerBalance,ugx} from "@/lib/finance";
+import {Link} from "@/lib/router-compat";
+import {Button} from "@/components/ui/button";
+import {PreviewFormDialog} from "@/features/kukuthrive/ui";
+export function CustomersList(){const {user}=useAuth();const data=useData(async db=>({customers:await db.customers.toArray(),sales:await db.sales.toArray(),payments:await db.payments.toArray()}));return <div className="space-y-6"><header className="flex flex-wrap items-start justify-between gap-3"><div><h1 className="text-2xl font-semibold">Customers</h1><p className="mt-1 text-sm text-muted-foreground">Customer balances and sales history.</p></div>{user?.role==="owner"&&<PreviewFormDialog title="Add customer" description="Keep customer details with their sales." feature="Customer registration" behavior="" trigger={<Button><Plus/>Add customer</Button>} submitLabel="Save customer" fields={[{name:"name",label:"Customer name",required:true},{name:"phone",label:"Phone number"},{name:"creditLimit",label:"Credit limit (UGX)",type:"number"}]} onSave={async fields=>{await save("customers",{id:uid(),name:fields["name"]??"",phone:fields["phone"]??"",creditLimit:Number(fields["creditLimit"]||0)},user.name);await syncNow();}}/>}</header><section className="divide-y rounded-lg border bg-card">{data?.customers.map(c=><Link key={c.id} to={`/customers/${c.id}`} className="flex items-center justify-between gap-3 p-4 hover:bg-muted"><span className="min-w-0"><span className="block break-words font-semibold">{c.name}</span><span className="mt-1 flex items-center gap-1 text-xs text-muted-foreground"><Phone className="size-3"/>{c.phone||"No phone number"}</span></span><span className="shrink-0 text-sm">{ugx(customerBalance(c.id,data.sales,data.payments))}</span><ArrowRight className="size-4 shrink-0"/></Link>)}{!data?.customers.length&&<p className="p-8 text-center text-sm text-muted-foreground">No customers yet.</p>}</section></div>;}
