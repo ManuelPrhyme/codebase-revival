@@ -8,6 +8,13 @@
       "when": 1795055040658,
       "tag": "0000_import_kuku_farm_records",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1795055076641,
+      "tag": "0001_import_kuku_team_workflows",
+      "breakpoints": true
     }
   ]
 }
