@@ -1,5 +1,13 @@
 {
   "version": "7",
   "dialect": "postgresql",
-  "entries": []
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1795055040658,
+      "tag": "0000_import_kuku_farm_records",
+      "breakpoints": true
+    }
+  ]
 }
