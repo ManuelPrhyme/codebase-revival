@@ -20,7 +20,7 @@ export function flockHouse(flock: Flock): string {
   if (flock.houseId) return flock.houseId;
   return '';
 }
-export async function persistModule(feature: string, fields: Record<string,string>, actor: string, id=uid()) {
+export async function persistModule(feature: string, fields: Record<string,string>, actor: string, id: string=uid()) {
   const row:ModuleRecord={id,feature,date:fields['date']||today(),fields};
   await save('moduleRecords',row,actor);
   if(navigator.onLine) { try { await syncNow(); } catch { /* queued on device */ } }
