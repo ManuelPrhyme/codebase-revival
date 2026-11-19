@@ -96,6 +96,7 @@ const groups: { label: string; items: NavItem[] }[] = [
       { to: "/analytics", label: "Analytics", icon: BarChart3 },
       { to: "/reports", label: "Reports", icon: FileText },
       { to: "/assistant", label: "Assistant", icon: Sparkles },
+      { to: "/reminder-planner", label: "Reminder Planner", icon: Bell },
     ],
   },
   {

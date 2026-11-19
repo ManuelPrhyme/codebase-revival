@@ -38,6 +38,7 @@ import { Route as AuthenticatedMedicationRouteImport } from './routes/_authentic
 import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authenticated/notifications'
 import { Route as AuthenticatedPhotosRouteImport } from './routes/_authenticated/photos'
 import { Route as AuthenticatedPriceHistoryRouteImport } from './routes/_authenticated/price-history'
+import { Route as AuthenticatedReminderPlannerRouteImport } from './routes/_authenticated/reminder-planner'
 import { Route as AuthenticatedReportsRouteImport } from './routes/_authenticated/reports'
 import { Route as AuthenticatedSalesRouteImport } from './routes/_authenticated/sales'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
@@ -207,6 +208,12 @@ const AuthenticatedPriceHistoryRoute =
     path: '/price-history',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedReminderPlannerRoute =
+  AuthenticatedReminderPlannerRouteImport.update({
+    id: '/reminder-planner',
+    path: '/reminder-planner',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedReportsRoute = AuthenticatedReportsRouteImport.update({
   id: '/reports',
   path: '/reports',
@@ -340,6 +347,7 @@ export interface FileRoutesByFullPath {
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/photos': typeof AuthenticatedPhotosRoute
   '/price-history': typeof AuthenticatedPriceHistoryRoute
+  '/reminder-planner': typeof AuthenticatedReminderPlannerRoute
   '/reports': typeof AuthenticatedReportsRoute
   '/sales': typeof AuthenticatedSalesRoute
   '/settings': typeof AuthenticatedSettingsRoute
@@ -389,6 +397,7 @@ export interface FileRoutesByTo {
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/photos': typeof AuthenticatedPhotosRoute
   '/price-history': typeof AuthenticatedPriceHistoryRoute
+  '/reminder-planner': typeof AuthenticatedReminderPlannerRoute
   '/reports': typeof AuthenticatedReportsRoute
   '/sales': typeof AuthenticatedSalesRoute
   '/settings': typeof AuthenticatedSettingsRoute
@@ -440,6 +449,7 @@ export interface FileRoutesById {
   '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
   '/_authenticated/photos': typeof AuthenticatedPhotosRoute
   '/_authenticated/price-history': typeof AuthenticatedPriceHistoryRoute
+  '/_authenticated/reminder-planner': typeof AuthenticatedReminderPlannerRoute
   '/_authenticated/reports': typeof AuthenticatedReportsRoute
   '/_authenticated/sales': typeof AuthenticatedSalesRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
@@ -491,6 +501,7 @@ export interface FileRouteTypes {
     | '/notifications'
     | '/photos'
     | '/price-history'
+    | '/reminder-planner'
     | '/reports'
     | '/sales'
     | '/settings'
@@ -540,6 +551,7 @@ export interface FileRouteTypes {
     | '/notifications'
     | '/photos'
     | '/price-history'
+    | '/reminder-planner'
     | '/reports'
     | '/sales'
     | '/settings'
@@ -590,6 +602,7 @@ export interface FileRouteTypes {
     | '/_authenticated/notifications'
     | '/_authenticated/photos'
     | '/_authenticated/price-history'
+    | '/_authenticated/reminder-planner'
     | '/_authenticated/reports'
     | '/_authenticated/sales'
     | '/_authenticated/settings'
@@ -825,6 +838,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPriceHistoryRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/reminder-planner': {
+      id: '/_authenticated/reminder-planner'
+      path: '/reminder-planner'
+      fullPath: '/reminder-planner'
+      preLoaderRoute: typeof AuthenticatedReminderPlannerRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/reports': {
       id: '/_authenticated/reports'
       path: '/reports'
@@ -986,6 +1006,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedNotificationsRoute: typeof AuthenticatedNotificationsRoute
   AuthenticatedPhotosRoute: typeof AuthenticatedPhotosRoute
   AuthenticatedPriceHistoryRoute: typeof AuthenticatedPriceHistoryRoute
+  AuthenticatedReminderPlannerRoute: typeof AuthenticatedReminderPlannerRoute
   AuthenticatedReportsRoute: typeof AuthenticatedReportsRoute
   AuthenticatedSalesRoute: typeof AuthenticatedSalesRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
@@ -1031,6 +1052,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedNotificationsRoute: AuthenticatedNotificationsRoute,
   AuthenticatedPhotosRoute: AuthenticatedPhotosRoute,
   AuthenticatedPriceHistoryRoute: AuthenticatedPriceHistoryRoute,
+  AuthenticatedReminderPlannerRoute: AuthenticatedReminderPlannerRoute,
   AuthenticatedReportsRoute: AuthenticatedReportsRoute,
   AuthenticatedSalesRoute: AuthenticatedSalesRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
