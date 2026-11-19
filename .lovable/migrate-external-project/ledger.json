@@ -2,14 +2,92 @@
   "source": "https://github.com/codejourneyweb3/codebase-revival",
   "skill": "migrate-external-project",
   "capabilities": [
-    {"capability":"code and routes","source":"GitHub main","outcome":"preserve","status":"in_progress","next_action":"Import source and verify routes"},
-    {"capability":"schema and authorization","source":"two PostgreSQL migrations","outcome":"migrate","status":"in_progress","next_action":"Apply farm schema and access policies to Cloud"},
-    {"capability":"existing records","source":"export not provided","outcome":"migrate","status":"pending","next_action":"Attach CSV or JSON application table exports"},
-    {"capability":"auth identities and first-login mapping","source":"export not provided","outcome":"migrate","status":"pending","next_action":"Attach user IDs, emails, profiles, roles and memberships"},
-    {"capability":"login and password recovery","source":"Cloud auth","outcome":"migrate","status":"in_progress","next_action":"Verify signed-in flow; email confirmation remains enabled"},
-    {"capability":"uploaded file bytes","source":"no file export supplied","outcome":"preserve","status":"pending","next_action":"Supply existing uploaded photos and documents with record exports"},
-    {"capability":"poultry cover image","source":"source asset pointer","outcome":"preserve","status":"in_progress","next_action":"Verify image loads"},
-    {"capability":"external providers, endpoints, callbacks, webhooks, schedules and secrets","source":"source call-site inspection","outcome":"preserve","status":"in_progress","next_action":"Finish inspection; do not copy environment credentials"},
-    {"capability":"cutover and production verification","source":"unpublished target","outcome":"verify","status":"pending","next_action":"Publish after data migration and verify email and social redirects"}
-  ]
+    {
+      "capability": "code and routes",
+      "source": "GitHub main",
+      "outcome": "preserve",
+      "status": "verified",
+      "next_action": "Imported 181 source files; 21 tests pass; desktop and phone preview checked"
+    },
+    {
+      "capability": "schema and authorization",
+      "source": "two PostgreSQL migrations",
+      "outcome": "migrate",
+      "status": "implemented",
+      "next_action": "Both source migrations applied; owner record write verified; cross-user authorization verification remains pending"
+    },
+    {
+      "capability": "existing records",
+      "source": "export not provided",
+      "outcome": "migrate",
+      "status": "pending",
+      "next_action": "Attach CSV or JSON application table exports"
+    },
+    {
+      "capability": "auth identities and first-login mapping",
+      "source": "export not provided",
+      "outcome": "migrate",
+      "status": "pending",
+      "next_action": "Attach user IDs, emails, profiles, roles and memberships"
+    },
+    {
+      "capability": "login and password recovery",
+      "source": "Cloud auth",
+      "outcome": "migrate",
+      "status": "partially_verified",
+      "next_action": "Authenticated Cloud session checked; live email and social-provider round trips pending publication"
+    },
+    {
+      "capability": "uploaded file bytes",
+      "source": "no file export supplied",
+      "outcome": "preserve",
+      "status": "pending",
+      "next_action": "Supply existing uploaded photos and documents with record exports"
+    },
+    {
+      "capability": "poultry cover image",
+      "source": "source asset pointer",
+      "outcome": "preserve",
+      "status": "verified",
+      "next_action": "Original source photo re-uploaded to target assets; image returns 200"
+    },
+    {
+      "capability": "external providers, endpoints, callbacks, webhooks, schedules and secrets",
+      "source": "source call-site inspection",
+      "outcome": "preserve",
+      "status": "inspected",
+      "next_action": "No implemented external provider calls or HTTP endpoints detected; AI assistant, automated pushes, report packs and several advanced controls were stubs in source and remain previews"
+    },
+    {
+      "capability": "cutover and production verification",
+      "source": "unpublished target",
+      "outcome": "verify",
+      "status": "pending",
+      "next_action": "Publish after data migration and verify email and social redirects"
+    }
+  ],
+  "verification": {
+    "tests": 21,
+    "build": "OK",
+    "browser_errors": 0,
+    "record_flow": "Created, reloaded, updated and archived a poultry house through UI; Cloud read confirmed 200 m\u00b2 and archived status",
+    "routes_checked": [
+      "auth",
+      "dashboard",
+      "farm",
+      "flocks",
+      "daily",
+      "sales",
+      "settings",
+      "notifications",
+      "welfare",
+      "reports"
+    ],
+    "limitations": [
+      "Existing-user first-login migration requires user export",
+      "Cross-user access not yet verified",
+      "Email/social redirects require live verification",
+      "Source preview-only controls are preserved, not newly implemented"
+    ]
+  }
 }
