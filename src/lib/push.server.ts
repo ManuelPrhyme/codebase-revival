@@ -39,7 +39,7 @@ export async function deliverPending(db: Client, userId?: string) {
         signal: AbortSignal.timeout(5000),
       });
       status = response.status;
-      if (!response.ok) { body = await response.text(); console.error(`Firebase delivery failed [${status}]: ${body}`); }
+      if (!response.ok) { body = await response.text(); console.error(`Firebase delivery failed [${status}]: ${body.replaceAll(row.token, '[device]')}`); }
     } catch { console.error('Firebase delivery request could not complete'); }
     const outcome = status >= 200 && status < 300 ? 'sent' : deliveryOutcome(status, body);
     if (outcome === 'stale') check((await db.from('push_devices').delete().eq('user_id', row.user_id).eq('token', row.token)).error);
@@ -57,7 +57,7 @@ export async function scheduledReminders(db: Client) {
     check(prefs.error);
     const p = object(prefs.data?.data);
     const clock = localClock(new Date(), typeof p['timezone'] === 'string' ? p['timezone'] : undefined);
-    if (clock.time < '08:00') continue;
+    if (clock.time.slice(0, 2) !== '08') continue;
     const membership = await db.from('farm_members').select('owner_id').eq('user_id', userId);
     check(membership.error);
     const owners = [...new Set([userId, ...(membership.data ?? []).map(m => m.owner_id)])];
