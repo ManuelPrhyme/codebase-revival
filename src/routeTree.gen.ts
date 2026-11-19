@@ -56,6 +56,7 @@ import { Route as AuthenticatedFlocksIdRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedHealthRecordsRouteImport } from './routes/_authenticated/health_.records'
 import { Route as AuthenticatedSalesNewRouteImport } from './routes/_authenticated/sales_.new'
 import { Route as AuthenticatedVaccinationRecordsRouteImport } from './routes/_authenticated/vaccination_.records'
+import { Route as ApiPublicJobsFarmRemindersRouteImport } from './routes/api/public/jobs/farm-reminders'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -303,6 +304,12 @@ const AuthenticatedVaccinationRecordsRoute =
     path: '/vaccination/records',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const ApiPublicJobsFarmRemindersRoute =
+  ApiPublicJobsFarmRemindersRouteImport.update({
+    id: '/api/public/jobs/farm-reminders',
+    path: '/api/public/jobs/farm-reminders',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -351,6 +358,7 @@ export interface FileRoutesByFullPath {
   '/health/records': typeof AuthenticatedHealthRecordsRoute
   '/sales/new': typeof AuthenticatedSalesNewRoute
   '/vaccination/records': typeof AuthenticatedVaccinationRecordsRoute
+  '/api/public/jobs/farm-reminders': typeof ApiPublicJobsFarmRemindersRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -399,6 +407,7 @@ export interface FileRoutesByTo {
   '/health/records': typeof AuthenticatedHealthRecordsRoute
   '/sales/new': typeof AuthenticatedSalesNewRoute
   '/vaccination/records': typeof AuthenticatedVaccinationRecordsRoute
+  '/api/public/jobs/farm-reminders': typeof ApiPublicJobsFarmRemindersRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -449,6 +458,7 @@ export interface FileRoutesById {
   '/_authenticated/health_/records': typeof AuthenticatedHealthRecordsRoute
   '/_authenticated/sales_/new': typeof AuthenticatedSalesNewRoute
   '/_authenticated/vaccination_/records': typeof AuthenticatedVaccinationRecordsRoute
+  '/api/public/jobs/farm-reminders': typeof ApiPublicJobsFarmRemindersRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -499,6 +509,7 @@ export interface FileRouteTypes {
     | '/health/records'
     | '/sales/new'
     | '/vaccination/records'
+    | '/api/public/jobs/farm-reminders'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -547,6 +558,7 @@ export interface FileRouteTypes {
     | '/health/records'
     | '/sales/new'
     | '/vaccination/records'
+    | '/api/public/jobs/farm-reminders'
   id:
     | '__root__'
     | '/'
@@ -596,6 +608,7 @@ export interface FileRouteTypes {
     | '/_authenticated/health_/records'
     | '/_authenticated/sales_/new'
     | '/_authenticated/vaccination_/records'
+    | '/api/public/jobs/farm-reminders'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -604,6 +617,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   LoginRoute: typeof LoginRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
+  ApiPublicJobsFarmRemindersRoute: typeof ApiPublicJobsFarmRemindersRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -937,6 +951,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedVaccinationRecordsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/api/public/jobs/farm-reminders': {
+      id: '/api/public/jobs/farm-reminders'
+      path: '/api/public/jobs/farm-reminders'
+      fullPath: '/api/public/jobs/farm-reminders'
+      preLoaderRoute: typeof ApiPublicJobsFarmRemindersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -1039,6 +1060,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   LoginRoute: LoginRoute,
   ResetPasswordRoute: ResetPasswordRoute,
+  ApiPublicJobsFarmRemindersRoute: ApiPublicJobsFarmRemindersRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

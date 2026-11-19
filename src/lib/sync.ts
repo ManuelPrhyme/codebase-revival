@@ -3,6 +3,7 @@ import type {Json} from "@/integrations/supabase/types";
 import {getDb} from "./db";
 import {useAuthStore} from "@/features/auth/AuthProvider";
 import {useSyncStatus} from "@/sync/SyncStatusStore";
+import {reportSyncAlert} from './push.functions';
 const SERVER_TABLE: Record<string, string> = {
   flocks: "flocks",
   reports: "dailyReports",
@@ -50,4 +51,4 @@ if(item.id!==undefined)await db.outbox.delete(item.id);pushed++;}return pushed;}
 export async function pullChanges(){const user=useAuthStore.getState().user;if(!user)return {written:0,removed:0};const db=getDb();let written=0,removed=0,offset=0;const pending=new Set((await db.outbox.toArray()).map(x=>`${SERVER_TABLE[x.table]}:${x.recordId}`));
 for(;;){const {data,error}=await supabase.from("record_store").select("table_name,id,data,deleted_at").eq("owner_id",user.farmId).order("table_name").order("id").range(offset,offset+999);if(error)throw error;for(const row of data??[]){const local=LOCAL_TABLE[row.table_name];if(!local || pending.has(`${row.table_name}:${row.id}`))continue;if(row.deleted_at){await db.table(local).delete(row.id);removed++;}else {await db.table(local).put(row.data);written++;}}if(!data || data.length<1000)break;offset+=1000;}return {written,removed};}
 let running:Promise<SyncResult>|null=null;
-export function syncNow():Promise<SyncResult>{if(running)return running;if(!navigator.onLine||!useAuthStore.getState().user?.role)return Promise.resolve({pushed:0,pulled:0,removed:0});running=(async()=>{const status=useSyncStatus.getState();status.setSyncing(true);try{const pushed=await pushOutbox();const pull=await pullChanges();status.setPending(await getDb().outbox.count());status.markSynced();return {pushed,pulled:pull.written,removed:pull.removed};}catch(e){status.setError(e instanceof Error?e.message:"Sync failed");throw e;}finally{status.setSyncing(false);running=null;}})();return running;}
+export function syncNow():Promise<SyncResult>{if(running)return running;if(!navigator.onLine||!useAuthStore.getState().user?.role)return Promise.resolve({pushed:0,pulled:0,removed:0});running=(async()=>{const status=useSyncStatus.getState();const wasFailed=Boolean(status.error);status.setSyncing(true);try{const pushed=await pushOutbox();const pull=await pullChanges();status.setPending(await getDb().outbox.count());status.markSynced();if(wasFailed)void reportSyncAlert({data:{state:'recovered'}}).catch(()=>undefined);return {pushed,pulled:pull.written,removed:pull.removed};}catch(e){status.setError(e instanceof Error?e.message:"Sync failed");void reportSyncAlert({data:{state:'failed'}}).catch(()=>undefined);throw e;}finally{status.setSyncing(false);running=null;}})();return running;}
