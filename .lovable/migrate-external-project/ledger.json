@@ -1,0 +1,15 @@
+{
+  "source": "https://github.com/codejourneyweb3/codebase-revival",
+  "skill": "migrate-external-project",
+  "capabilities": [
+    {"capability":"code and routes","source":"GitHub main","outcome":"preserve","status":"in_progress","next_action":"Import source and verify routes"},
+    {"capability":"schema and authorization","source":"two PostgreSQL migrations","outcome":"migrate","status":"in_progress","next_action":"Apply farm schema and access policies to Cloud"},
+    {"capability":"existing records","source":"export not provided","outcome":"migrate","status":"pending","next_action":"Attach CSV or JSON application table exports"},
+    {"capability":"auth identities and first-login mapping","source":"export not provided","outcome":"migrate","status":"pending","next_action":"Attach user IDs, emails, profiles, roles and memberships"},
+    {"capability":"login and password recovery","source":"Cloud auth","outcome":"migrate","status":"in_progress","next_action":"Verify signed-in flow; email confirmation remains enabled"},
+    {"capability":"uploaded file bytes","source":"no file export supplied","outcome":"preserve","status":"pending","next_action":"Supply existing uploaded photos and documents with record exports"},
+    {"capability":"poultry cover image","source":"source asset pointer","outcome":"preserve","status":"in_progress","next_action":"Verify image loads"},
+    {"capability":"external providers, endpoints, callbacks, webhooks, schedules and secrets","source":"source call-site inspection","outcome":"preserve","status":"in_progress","next_action":"Finish inspection; do not copy environment credentials"},
+    {"capability":"cutover and production verification","source":"unpublished target","outcome":"verify","status":"pending","next_action":"Publish after data migration and verify email and social redirects"}
+  ]
+}
