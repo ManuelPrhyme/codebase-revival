@@ -104,6 +104,54 @@ export type Database = {
         }
         Relationships: []
       }
+      push_deliveries: {
+        Row: {
+          attempts: number
+          category: string
+          created_at: string
+          event_key: string
+          id: string
+          last_status: number | null
+          next_attempt_at: string
+          path: string
+          sent_at: string | null
+          status: string
+          title: string
+          token: string
+          user_id: string
+        }
+        Insert: {
+          attempts?: number
+          category: string
+          created_at?: string
+          event_key: string
+          id?: string
+          last_status?: number | null
+          next_attempt_at?: string
+          path: string
+          sent_at?: string | null
+          status?: string
+          title: string
+          token: string
+          user_id: string
+        }
+        Update: {
+          attempts?: number
+          category?: string
+          created_at?: string
+          event_key?: string
+          id?: string
+          last_status?: number | null
+          next_attempt_at?: string
+          path?: string
+          sent_at?: string | null
+          status?: string
+          title?: string
+          token?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       push_devices: {
         Row: {
           created_at: string
@@ -187,6 +235,30 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      claim_push_delivery: {
+        Args: { _id: string }
+        Returns: {
+          attempts: number
+          category: string
+          created_at: string
+          event_key: string
+          id: string
+          last_status: number | null
+          next_attempt_at: string
+          path: string
+          sent_at: string | null
+          status: string
+          title: string
+          token: string
+          user_id: string
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "push_deliveries"
+          isOneToOne: false
+          isSetofReturn: true
+        }
+      }
       farm_accept_invite: { Args: { _id: string }; Returns: undefined }
       farm_access: {
         Args: { _data?: Json; _owner: string; _table: string }
