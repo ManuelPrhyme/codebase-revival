@@ -12,8 +12,8 @@ export async function enqueuePush(db: Client, userId: string, event: PushEvent) 
   check(write.error);
 }
 export async function deliverPending(db: Client, userId?: string) {
-  const key = process.env.FIREBASE_MESSAGING_API_KEY;
-  const lovableKey = process.env.LOVABLE_API_KEY;
+  const key = process.env['FIREBASE_MESSAGING_API_KEY'];
+  const lovableKey = process.env['LOVABLE_API_KEY'];
   if (!key || !lovableKey) throw new Error('Firebase delivery is not configured');
   let query = db.from('push_deliveries').select('*').eq('status', 'pending').lte('next_attempt_at', new Date().toISOString()).order('next_attempt_at').limit(25);
   if (userId) query = query.eq('user_id', userId);
@@ -56,7 +56,7 @@ export async function scheduledReminders(db: Client) {
     const prefs = await db.from('user_preferences').select('data').eq('user_id', userId).maybeSingle();
     check(prefs.error);
     const p = object(prefs.data?.data);
-    const clock = localClock(new Date(), typeof p.timezone === 'string' ? p.timezone : undefined);
+    const clock = localClock(new Date(), typeof p['timezone'] === 'string' ? p['timezone'] : undefined);
     if (clock.time < '08:00') continue;
     const membership = await db.from('farm_members').select('owner_id').eq('user_id', userId);
     check(membership.error);

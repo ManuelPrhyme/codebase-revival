@@ -12,25 +12,25 @@ export function localClock(now: Date, timezone = 'Africa/Nairobi') {
 }
 export function canDeliver(raw: unknown, category: string, now: Date) {
   const prefs = object(raw);
-  if (object(prefs.categories)[category] === false) return false;
-  const time = localClock(now, typeof prefs.timezone === 'string' ? prefs.timezone : undefined).time;
-  const from = typeof prefs.quietFrom === 'string' && /^\d{2}:\d{2}$/.test(prefs.quietFrom) ? prefs.quietFrom : '21:00';
-  const to = typeof prefs.quietTo === 'string' && /^\d{2}:\d{2}$/.test(prefs.quietTo) ? prefs.quietTo : '06:00';
+  if (object(prefs['categories'])[category] === false) return false;
+  const time = localClock(now, typeof prefs['timezone'] === 'string' ? prefs['timezone'] : undefined).time;
+  const from = typeof prefs['quietFrom'] === 'string' && /^\d{2}:\d{2}$/.test(prefs['quietFrom']) ? prefs['quietFrom'] : '21:00';
+  const to = typeof prefs['quietTo'] === 'string' && /^\d{2}:\d{2}$/.test(prefs['quietTo']) ? prefs['quietTo'] : '06:00';
   return from === to || !(from < to ? time >= from && time < to : time >= from || time < to);
 }
 export function reminderEvents(rows: FarmRow[], date: string): PushEvent[] {
   const result: PushEvent[] = [];
   for (const row of rows) {
     const d = object(row.data);
-    if (row.table_name === 'vaccinations' && d.done !== true && typeof d.dueDate === 'string' && d.dueDate <= date) {
-      result.push({ key: `${row.owner_id}:vaccination:${row.id}:${d.dueDate}`, category: 'schedule', title: 'Vaccination reminder', path: '/vaccination' });
+    if (row.table_name === 'vaccinations' && d['done'] !== true && typeof d['dueDate'] === 'string' && d['dueDate'] <= date) {
+      result.push({ key: `${row.owner_id}:vaccination:${row.id}:${d['dueDate']}`, category: 'schedule', title: 'Vaccination reminder', path: '/vaccination' });
     }
-    if (row.table_name === 'medicineStock' && typeof d.expiry === 'string' && d.expiry <= date) {
-      result.push({ key: `${row.owner_id}:expiry:${row.id}:${d.expiry}`, category: 'expiry', title: 'Medication expiry reminder', path: '/medication' });
+    if (row.table_name === 'medicineStock' && typeof d['expiry'] === 'string' && d['expiry'] <= date) {
+      result.push({ key: `${row.owner_id}:expiry:${row.id}:${d['expiry']}`, category: 'expiry', title: 'Medication expiry reminder', path: '/medication' });
     }
-    if (row.table_name === 'medicationApplications' && typeof d.date === 'string' && typeof d.withdrawalDays === 'number' && d.withdrawalDays >= 0) {
-      const end = new Date(`${d.date.slice(0, 10)}T00:00:00Z`);
-      end.setUTCDate(end.getUTCDate() + d.withdrawalDays);
+    if (row.table_name === 'medicationApplications' && typeof d['date'] === 'string' && typeof d['withdrawalDays'] === 'number' && d['withdrawalDays'] >= 0) {
+      const end = new Date(`${d['date'].slice(0, 10)}T00:00:00Z`);
+      end.setUTCDate(end.getUTCDate() + d['withdrawalDays']);
       if (Number.isFinite(end.getTime()) && end.toISOString().slice(0, 10) === date) result.push({ key: `${row.owner_id}:withdrawal:${row.id}:${date}`, category: 'expiry', title: 'Withdrawal period reminder', path: '/medication' });
     }
   }
